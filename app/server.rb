@@ -3,9 +3,9 @@ require 'sinatra/json'
 require 'sinatra/cross_origin'
 require 'sinatra/activerecord'
 
-require_relative './routes/chatty'
+require_relative './routes/chat'
 
-class API < Sinatra::Base
+class Server < Sinatra::Base
   # ActiveRecord
   register Sinatra::ActiveRecordExtension
   
@@ -25,7 +25,7 @@ class API < Sinatra::Base
   #register Sinatra::API::SessionAuth
   
   # Exposing Models
-  register Sinatra::API::Routes::Chatty
+  register Sinatra::Server::Routes::Chat
   
   # Helpers
   helpers Sinatra::JSON

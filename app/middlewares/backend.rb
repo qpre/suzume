@@ -1,7 +1,7 @@
 require 'faye/websocket'
 Faye::WebSocket.load_adapter('thin')
 
-module Chatty
+module Suzume
   class Backend
 
     def initialize(app)
@@ -11,7 +11,6 @@ module Chatty
 
     def call(env)
     	if Faye::WebSocket.websocket?(env)
-    		puts env
 			# WebSockets logic goes here
 			ws = Faye::WebSocket.new(env)
 
