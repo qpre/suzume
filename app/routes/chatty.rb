@@ -6,6 +6,8 @@ module Sinatra
         def self.registered(app)
         
           app.get '/' do
+            puts 'delivering index !'
+            status 200
             erb :"index.html"
           end
         end

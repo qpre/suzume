@@ -18,7 +18,7 @@ def run(opts)
     # define some defaults for our app
     server  = 'thin'
     host    = opts[:host]   || '0.0.0.0'
-    port    = opts[:port]   || '8181'
+    port    = opts[:port]   || '9393'
     web_app = opts[:app]
 
     dispatch = Rack::Builder.app do
