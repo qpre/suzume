@@ -18,11 +18,11 @@ gem 'eventmachine'
 gem 'thin'
 
 group :production do
-  #gem 'pg'
+  gem 'pg'
 end
 
 group :development do
-  #gem "sqlite3"
+  gem "sqlite3"
   gem "shotgun"
   gem "tux"
 end
