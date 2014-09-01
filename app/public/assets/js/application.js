@@ -1,5 +1,6 @@
 function WebSocketHandler (uri, onmessage) {
   this.ws = null;
+  this.onmessage = onmessage;
   this.wsReady = false;
   this.queue = [];
   this.uri = uri;
