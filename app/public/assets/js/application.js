@@ -16,10 +16,10 @@ WebSocketHandler.prototype.init = function () {
 
     console.log('connection opened');
 
+    this.wsReady = true;
     for (; i < this.queue.length; i++) {
-      this.ws.send(this.queue[i]);
+      this.send(this.queue[i]);
     }
-
     this.queue = [];
   }.bind(this);
 
