@@ -1,6 +1,7 @@
 function WebSocketHandler (uri, onmessage) {
   this.ws = null;
   this.uri = uri;
+  this.init();
 }
 
 WebSocketHandler.prototype.init = function () {
@@ -30,7 +31,7 @@ var onmessage = function(message) {
   }, 800);
 };
 
-var ws = new WebSocketHandler(uri. onmessage);
+var ws = new WebSocketHandler(uri, onmessage);
 
 $("#input-form").on("submit", function(event) {
   event.preventDefault();
