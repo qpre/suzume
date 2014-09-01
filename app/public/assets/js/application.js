@@ -8,7 +8,7 @@ WebSocketHandler.prototype.init = function () {
   this.ws = new WebSocket(this.uri);
   this.ws.onmessage = this.onmessage;
   this.ws.onclose = function () {
-    this.init();
+    this.ws = null;
   }.bind(this);
 }
 
