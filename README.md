@@ -1,11 +1,6 @@
-phubo
+Suzume
 =====
 
-A web based photo viewer with cloud based storage integration and advanced sharing options
+this project is intended as a test with websockets, but will receive improvements over time.
 
-start the development server
-----------------------------
-
-make sure you are running ruby >= 2.0,
-then execute `bundle install`,
-finally start the server with `shotgun`
+try it on: http://suzume.herokuapp.com
