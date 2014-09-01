@@ -30,7 +30,7 @@ var onmessage = function(message) {
   }, 800);
 };
 
-var ws = WebSocketHandler(uri. onmessage);
+var ws = new WebSocketHandler(uri. onmessage);
 
 $("#input-form").on("submit", function(event) {
   event.preventDefault();
