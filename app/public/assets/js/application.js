@@ -49,7 +49,7 @@ var uri      = scheme + window.document.location.host + "/";
 
 var onmessage = function(message) {
   var data = JSON.parse(message.data);
-  $("#chat-text").append("<div class='form-group'><label class='control-label'>" + data.handle + "</label><div><p class='form-control-static'>"+ data.text +"</p></div></div>");
+  $("#chat-text").append("<form class='form-horizontal' role='form'><div class='form-group'><label class='col-sm-2 control-label'>" + data.handle + "</label><div class='col-sm-10'><p class='form-control-static'>"+ data.text +"</p></div></div></form>");
   $("#chat-text").stop().animate({
     scrollTop: $('#chat-text')[0].scrollHeight
   }, 800);
