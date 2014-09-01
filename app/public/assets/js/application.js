@@ -1,22 +1,22 @@
 function WebSocketHandler (uri, onmessage) {
   this.ws = null;
   this.uri = uri;
+}
 
-  this.init = function () {
-    this.ws = new WebSocket(this.uri);
-    this.ws.onmessage = this.onmessage;
-    this.ws.onclose = function () {
-      this.init();
-    }.bind(this);
+WebSocketHandler.prototype.init = function () {
+  this.ws = new WebSocket(this.uri);
+  this.ws.onmessage = this.onmessage;
+  this.ws.onclose = function () {
+    this.init();
+  }.bind(this);
+}
+
+WebSocketHandler.prototype.send = function (str) {
+  if (!this.ws) {
+    this.init();
   }
 
-  this.send = function (str) {
-    if (!this.ws) {
-      this.init();
-    }
-
-    this.ws.send(str);
-  }
+  this.ws.send(str);
 }
 
 var scheme   = "ws://";
