@@ -1,5 +1,7 @@
 function WebSocketHandler (uri, onmessage) {
   this.ws = null;
+  this.wsReady = false;
+  this.queue = [];
   this.uri = uri;
   this.init();
 }
@@ -7,9 +9,26 @@ function WebSocketHandler (uri, onmessage) {
 WebSocketHandler.prototype.init = function () {
   this.ws = new WebSocket(this.uri);
   this.ws.onmessage = this.onmessage;
+
+  this.ws.onopen = function () {
+    var i = 0;
+
+    console.log('connection opened');
+
+    for (; i < this.queue.length; i++) {
+      this.ws.send(this.queue[i]);
+    }
+
+    this.queue = [];
+  }.bind(this);
+
   this.ws.onclose = function () {
     this.ws = null;
+    this.wsReady = false;
+    console.log('connection closed');
   }.bind(this);
+
+
 }
 
 WebSocketHandler.prototype.send = function (str) {
@@ -17,7 +36,11 @@ WebSocketHandler.prototype.send = function (str) {
     this.init();
   }
 
-  this.ws.send(str);
+  if (!this.wsReady){
+    this.queue.push(str);
+  } else {
+    this.ws.send(str);
+  }
 }
 
 var scheme   = "ws://";
