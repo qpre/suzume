@@ -59,12 +59,12 @@ WebSocketHandler.prototype.send = function (str) {
 /**
  * Suzume
  */
-function Suzume () {
+function SuzumeWrapper () {
   this.ws   = null;
   this.user = null;
 }
 
-Suzume.prototype.onMessage = function(message) {
+SuzumeWrapper.prototype.onMessage = function(message) {
   var data = JSON.parse(message.data);
 
   $("#chat-text").append("<form class='form-horizontal' role='form'><div class='form-group'><label class='col-sm-2 control-label'>" + data.handle + "</label><div class='col-sm-10'><p class='form-control-static'>"+ data.text +"</p></div></div></form>");
@@ -73,12 +73,12 @@ Suzume.prototype.onMessage = function(message) {
   }, 800);
 };
 
-Suzume.prototype.sendMessage = function (message) {
+SuzumeWrapper.prototype.sendMessage = function (message) {
   var text   = $("#input-text")[0].value;
   this.ws.send(JSON.stringify({ handle: this.user.handle, text: text }));
 };
 
-Suzume.prototype.start = function () {
+SuzumeWrapper.prototype.start = function () {
   var scheme   = "ws://";
   var uri      = scheme + window.document.location.host + "/";
 
@@ -98,5 +98,5 @@ Suzume.prototype.start = function () {
   });
 }
 
-window.Suzume = new Suzume();
+window.Suzume = new SuzumeWrapper();
 window.Suzume.start();
