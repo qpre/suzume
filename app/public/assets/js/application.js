@@ -87,16 +87,42 @@ SuzumeWrapper.prototype.start = function () {
   // Setting up listeners
   $("#input-form").on("submit", function(event) {
     event.preventDefault();
-
-    if (this.user) {
+    if (this.checkUser()) {
       var text   = $("#input-text")[0].value;
       this.sendMessage(text);
       $("#input-text")[0].value = "";
-    } else {
-
     }
-  });
+  }.bind(this));
+
+  $('#user-login-form').on("submit", function(event) {
+    event.preventDefault();
+    var handle   = $("#input-handle")[0].value;
+
+    this.user = new User(handle);
+
+    document.getElementById("userName").innerHTML = this.user.handle;
+    $('#userLoginModal').modal('hide');
+  }.bind(this));
+
+  this.checkUser();
 }
 
+SuzumeWrapper.prototype.checkUser = function () {
+  if (!this.user) {
+    this.showLogin();
+    return false;
+  }
+
+  return true;
+}
+
+SuzumeWrapper.prototype.showLogin = function () {
+  $('#userLoginModal').modal('show');
+}
+
+
+// Init
 window.Suzume = new SuzumeWrapper();
-window.Suzume.start();
+$(window).ready(function () {
+  window.Suzume.start();
+});
