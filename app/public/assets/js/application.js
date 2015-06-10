@@ -105,6 +105,7 @@ SuzumeWrapper.prototype.start = function () {
   }.bind(this));
 
   this.checkUser();
+  $('#chat-text').addClass('loaded');
 }
 
 SuzumeWrapper.prototype.checkUser = function () {
