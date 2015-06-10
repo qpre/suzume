@@ -56,39 +56,47 @@ WebSocketHandler.prototype.send = function (str) {
   }
 }
 
-window.Suzume = {
-    ws:     null,
-    user:   null,
+/**
+ * Suzume
+ */
+function Suzume () {
+  this.ws   = null;
+  this.user = null;
+}
 
-    onMessage: function(message) {
-      var data = JSON.parse(message.data);
-      $("#chat-text").append("<form class='form-horizontal' role='form'><div class='form-group'><label class='col-sm-2 control-label'>" + data.handle + "</label><div class='col-sm-10'><p class='form-control-static'>"+ data.text +"</p></div></div></form>");
-      $("#chat-text").stop().animate({
-        scrollTop: $('#chat-text')[0].scrollHeight
-      }, 800);
-    },
+Suzume.prototype.onMessage = function(message) {
+  var data = JSON.parse(message.data);
 
-    start: function () {
-      var scheme   = "ws://";
-      var uri      = scheme + window.document.location.host + "/";
-
-      this.ws = new WebSocketHandler(uri, this.onMessage);
-
-      // Setting up listeners
-      $("#input-form").on("submit", function(event) {
-        event.preventDefault();
-        var text   = $("#input-text")[0].value;
-        this.sendMessage(text);
-        $("#input-text")[0].value = "";
-      });
-    },
-
-    sendMessage: function (message) {
-      if (this.user) {
-        var text   = $("#input-text")[0].value;
-        this.ws.send(JSON.stringify({ handle: this.user.handle, text: text }));
-      }
-    }
+  $("#chat-text").append("<form class='form-horizontal' role='form'><div class='form-group'><label class='col-sm-2 control-label'>" + data.handle + "</label><div class='col-sm-10'><p class='form-control-static'>"+ data.text +"</p></div></div></form>");
+  $("#chat-text").stop().animate({
+    scrollTop: $('#chat-text')[0].scrollHeight
+  }, 800);
 };
 
+Suzume.prototype.sendMessage = function (message) {
+  var text   = $("#input-text")[0].value;
+  this.ws.send(JSON.stringify({ handle: this.user.handle, text: text }));
+};
+
+Suzume.prototype.start = function () {
+  var scheme   = "ws://";
+  var uri      = scheme + window.document.location.host + "/";
+
+  this.ws = new WebSocketHandler(uri, this.onMessage);
+
+  // Setting up listeners
+  $("#input-form").on("submit", function(event) {
+    event.preventDefault();
+
+    if (this.user) {
+      var text   = $("#input-text")[0].value;
+      this.sendMessage(text);
+      $("#input-text")[0].value = "";
+    } else {
+
+    }
+  });
+}
+
+window.Suzume = new Suzume();
 window.Suzume.start();
