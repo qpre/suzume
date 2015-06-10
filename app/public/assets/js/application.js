@@ -91,4 +91,4 @@ window.Suzume = {
     }
 };
 
-Suzume.start();
+window.Suzume.start();
