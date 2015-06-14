@@ -35,10 +35,18 @@ WebSocketHandler.prototype.init = function () {
     this.queue = [];
   }.bind(this);
 
-  this.ws.onclose = function () {
+  this.ws.onclose = function (retry) {
+    if (typeof retry === undefined) {
+      retry = true;
+    }
+
     this.ws = null;
     this.wsReady = false;
     console.log('connection closed');
+
+    if (retry) {
+      this.init();
+    }
   }.bind(this);
 
 
@@ -67,7 +75,7 @@ function SuzumeWrapper () {
 SuzumeWrapper.prototype.onMessage = function(message) {
   var data = JSON.parse(message.data);
 
-  $("#chat-text").append("<form class='form-horizontal' role='form'><div class='form-group'><label class='col-sm-2 control-label'>" + data.handle + "</label><div class='col-sm-10'><p class='form-control-static'>"+ data.text +"</p></div></div></form>");
+  $("#chat-text").append("<div class='message'><span class='handle'>"+data.handle+"</span><span class='text'>"+data.text+"</span></div>");
   $("#chat-text").stop().animate({
     scrollTop: $('#chat-text')[0].scrollHeight
   }, 800);
@@ -80,7 +88,7 @@ SuzumeWrapper.prototype.sendMessage = function (message) {
 
 SuzumeWrapper.prototype.start = function () {
   var scheme   = "ws://";
-  var uri      = scheme + window.document.location.host + "/";
+  var uri      = scheme + 'suzume.herokuapp.com/'; //window.document.location.host + "/";
 
   this.ws = new WebSocketHandler(uri, this.onMessage);
 
@@ -109,6 +117,8 @@ SuzumeWrapper.prototype.start = function () {
 }
 
 SuzumeWrapper.prototype.checkUser = function () {
+  this.user = new User('quentin');
+
   if (!this.user) {
     this.showLogin();
     return false;
