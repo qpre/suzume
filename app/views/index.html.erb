@@ -4,26 +4,27 @@
     <title>Ruby WebSockets Chat Demo</title>
     <!-- <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="assets/css/bootflat.min.css" rel="stylesheet" media="screen"> -->
+    <!-- <link href="assets/css/font-awesome.min.css" rel="stylesheet" media="screen"> -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link href="assets/css/normalize.css" rel="stylesheet" media="screen">
     <link href="assets/css/application.css" rel="stylesheet" media="screen">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <div id='sidebar'>
-      <div class='branding'>
-      </div>
+      <div class='branding'>Suzume</div>
     </div>
 
     <div id='panel'>
+      <div class='header'></div>
+
       <div id='chat-text'></div>
 
       <div id='message-input'>
         <form id="input-form" class="form-inline">
           <div class="input-group">
             <input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="submit">Send</button>
-            </span>
+            <button class="btn btn-primary" type="submit"><i class="fa fa-paper-plane"></i></button>
           </div>
         </form>
       </div>
