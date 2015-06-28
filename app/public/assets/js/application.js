@@ -104,7 +104,7 @@ SuzumeWrapper.prototype._addRooms = function (data) {
 }
 
 SuzumeWrapper.prototype._handleMessage = function (data) {
-  var message = { handle; data.handle, text: data.text };
+  var message = { handle: data.handle, text: data.text };
 
   if (!this.rooms[data.room]) {
     this._addRooms({ rooms: [data.room] });
