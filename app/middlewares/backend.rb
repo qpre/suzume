@@ -26,11 +26,13 @@ module Suzume
         ws.on :message do |event|
           p [:message, event.data]
 
-          if event.data then d = JSON.parse event.data
+          if event.data
+            d = JSON.parse event.data
 
-          if d && d.room
-            unless @channels.include? d.room
-              @channels.push d.room
+            if d.room
+              unless @channels.include? d.room
+                @channels.push d.room
+              end
             end
           end
 
