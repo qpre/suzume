@@ -138,7 +138,11 @@ SuzumeWrapper.prototype.renderCurrentRoom = function () {
 
 SuzumeWrapper.prototype.sendMessage = function (message) {
   var text   = $("#input-text")[0].value;
-  this.ws.send(JSON.stringify({ handle: this.user.handle, text: text, room: this.currentRoom }));
+  this.ws.send(JSON.stringify({
+    what:     'message',
+    handle:   this.user.handle,
+    text:     text,
+    room:     this.currentRoom }));
 };
 
 SuzumeWrapper.prototype.start = function () {
@@ -150,6 +154,7 @@ SuzumeWrapper.prototype.start = function () {
   // Setting up listeners
   $("#input-form").on("submit", function(event) {
     event.preventDefault();
+
     if (this.checkUser()) {
       var text   = $("#input-text")[0].value;
       this.sendMessage(text);
@@ -185,7 +190,6 @@ SuzumeWrapper.prototype.checkUser = function () {
 SuzumeWrapper.prototype.showLogin = function () {
   $('#userLoginModal').modal('show');
 }
-
 
 // Init
 window.Suzume = new SuzumeWrapper();
