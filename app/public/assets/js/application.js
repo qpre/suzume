@@ -129,7 +129,7 @@ SuzumeWrapper.prototype.clearMessage = function () {
   $("#chat-text").innerHTML = '';
 }
 
-SuzumeWrapper.prototype.renderCurrentRoom = function () {]
+SuzumeWrapper.prototype.renderCurrentRoom = function () {
   var room = this.rooms[this.currentRoom];
   for (var i = 0; i < room.messageList.length; i++) {
     this.appendMessage(room.messageList[i]);
