@@ -24,9 +24,11 @@ module Suzume
         ws.on :message do |event|
           p [:message, event.data]
 
-          if (event.data.room)
+          if event.data && event.data.room
             unless @channels.include? event.data.room
               @channels.push event.data.room
+            end
+          end
 
           @clients.each {|client| client.send(event.data) }
         end
