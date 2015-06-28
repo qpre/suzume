@@ -5,8 +5,9 @@ module Suzume
   class Backend
 
     def initialize(app)
-      @app     = app
-      @clients = []
+      @app      = app
+      @clients  = []
+      @channels = []
     end
 
     def call(env)
@@ -17,10 +18,16 @@ module Suzume
         ws.on :open do |event|
           p [:open, ws.object_id]
           @clients << ws
+          ws.send(@channels)
         end
 
         ws.on :message do |event|
           p [:message, event.data]
+
+          if (event.data.room)
+            unless @channels.include? event.data.room
+              @channels.push event.data.room
+
           @clients.each {|client| client.send(event.data) }
         end
 
