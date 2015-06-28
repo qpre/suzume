@@ -1,4 +1,6 @@
 require 'faye/websocket'
+require 'json'
+
 Faye::WebSocket.load_adapter('thin')
 
 module Suzume
@@ -18,15 +20,17 @@ module Suzume
         ws.on :open do |event|
           p [:open, ws.object_id]
           @clients << ws
-          ws.send(@channels)
+          ws.send(JSON.dump @channels)
         end
 
         ws.on :message do |event|
           p [:message, event.data]
 
-          if event.data && event.data.room
-            unless @channels.include? event.data.room
-              @channels.push event.data.room
+          if event.data then d = JSON.parse event.data
+
+          if d && d.room
+            unless @channels.include? d.room
+              @channels.push d.room
             end
           end
 
