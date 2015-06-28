@@ -20,7 +20,7 @@ module Suzume
         ws.on :open do |event|
           p [:open, ws.object_id]
           @clients << ws
-          ws.send(JSON.dump @channels)
+          ws.send(JSON.dump rooms: @channels)
         end
 
         ws.on :message do |event|

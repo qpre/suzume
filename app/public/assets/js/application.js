@@ -6,6 +6,11 @@ function User (handle) {
     this.handle  = handle;
 }
 
+function Room (name, messageList) {
+  this.messageList  = messageList;
+  this.name         = name;
+}
+
 
 /**
  * WebSockets
@@ -68,22 +73,72 @@ WebSocketHandler.prototype.send = function (str) {
  * Suzume
  */
 function SuzumeWrapper () {
-  this.ws   = null;
-  this.user = null;
+  this.ws           = null;
+  this.user         = null;
+  this.rooms        = {};
+  this.currentRoom  = 'Dojo';
 }
 
 SuzumeWrapper.prototype.onMessage = function(message) {
   var data = JSON.parse(message.data);
 
-  $("#chat-text").append("<div class='message'><span class='handle'>"+data.handle+"</span><span class='text'>"+data.text+"</span></div>");
-  $("#chat-text").stop().animate({
-    scrollTop: $('#chat-text')[0].scrollHeight
-  }, 800);
+  if (data) {
+    switch (data.what) {
+      case 'rooms':
+        this._addRooms(data);
+        break;
+      case 'message':
+        this._handleMessage(data);
+        break;
+      default:
+        console.warn("Unkown command :" + data);
+    }
+  }
 };
+
+SuzumeWrapper.prototype._addRooms = function (data) {
+  for (var i = 0; i < data.rooms.length; i++) {
+    var name = data.rooms[i];
+    this.rooms[name] = new Room(name, []);
+  }
+}
+
+SuzumeWrapper.prototype._handleMessage = function (data) {
+  var message = { handle; data.handle, text: data.text };
+
+  if (!this.rooms[data.room]) {
+    this._addRooms({ rooms: [data.room] });
+  }
+
+  this.rooms[data.room].messageList.push(message);
+
+  if (data.room === this.currentRoom) {
+    this.appendMessage(message);
+  }
+}
+
+SuzumeWrapper.prototype.appendMessage = function (message) {
+  $("#chat-text").append("<div class='message'><span class='handle'>" +
+                          message.handle +
+                          "</span><span class='text'>" +
+                          message.text +
+                          "</span></div>");
+}
+
+SuzumeWrapper.prototype.clearMessage = function () {
+  $("#chat-text").innerHTML = '';
+}
+
+SuzumeWrapper.prototype.renderCurrentRoom = function () {]
+  var room = this.rooms[this.currentRoom];
+  for (var i = 0; i < room.messageList.length; i++) {
+    this.appendMessage(room.messageList[i]);
+  }
+}
 
 SuzumeWrapper.prototype.sendMessage = function (message) {
   var text   = $("#input-text")[0].value;
-  this.ws.send(JSON.stringify({ handle: this.user.handle, text: text }));
+  this.ws.send(JSON.stringify({ handle: this.user.handle, text: text, room: this.currentRoom }));
 };
 
 SuzumeWrapper.prototype.start = function () {
