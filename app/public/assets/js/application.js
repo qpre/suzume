@@ -146,10 +146,11 @@ SuzumeWrapper.prototype.sendMessage = function (message) {
 };
 
 SuzumeWrapper.prototype.start = function () {
-  var scheme   = "ws://";
-  var uri      = scheme + 'suzume.herokuapp.com/'; //window.document.location.host + "/";
+  var scheme    = "ws://";
+  var uri       = scheme + 'suzume.herokuapp.com/'; //window.document.location.host + "/";
+  var self      = this;
 
-  this.ws = new WebSocketHandler(uri, this.onMessage);
+  this.ws = new WebSocketHandler(uri, function (data) { self.onMessage(data) });
 
   // Setting up listeners
   $("#input-form").on("submit", function(event) {
